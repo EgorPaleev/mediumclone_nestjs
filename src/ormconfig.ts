@@ -5,11 +5,17 @@ const config: TypeOrmModuleOptions = {
     type: 'postgres',
     host: 'localhost',
     port: 5432,
-    username: 'mediumclone',
+    username: 'postgres',
     password: 'user',
-    database: 'mediumclone2',
-    entities: [path.join(__dirname, '//*.entity{.ts,.js}')],
-    synchronize: true, 
+    database: 'mediumclone',
+    entities: [
+        path.join(__dirname, '/**/*.entity{.ts,.js}')
+],
+    synchronize: false, 
+    migrations: [path.join(__dirname, '/migrations/**/*{.ts,.js}')],
+    cli: {
+        migrationsDir: 'src/migrations',
+      },
     logging: true,
 };
 
