@@ -1,5 +1,5 @@
 import { TypeOrmModuleOptions } from "@nestjs/typeorm";
-import * as path from 'path';
+import {TagEntity} from "./tag/tag.entity";
 
 const config: TypeOrmModuleOptions = {
     type: 'postgres',
@@ -8,8 +8,8 @@ const config: TypeOrmModuleOptions = {
     username: 'mediumclone',
     password: 'user',
     database: 'mediumclone2',
-    entities: [path.join(__dirname, '//*.entity{.ts,.js}')],
-    synchronize: true, 
+    entities: [TagEntity],
+    synchronize: true,
     logging: true,
 };
 
