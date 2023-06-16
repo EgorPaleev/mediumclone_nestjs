@@ -30,7 +30,8 @@ export class UserService{
         return await this.userRepository.save(newUser);
     }
 
-    findById(id: number): Promise<UserEntity> {
+    async findById(id: number): Promise<UserEntity>
+    {
         return this.userRepository.findOne(id);
     }
 
