@@ -5,7 +5,6 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import {sign} from "jsonwebtoken";
 import { JWT_SECRET } from "@app/config";
-import { UserResponseInterface } from "./types/userResponse.interface";
 import { LoginUserDto } from "./dto/login.dto";
 import { compare } from "bcrypt";
 
