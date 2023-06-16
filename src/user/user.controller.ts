@@ -13,7 +13,7 @@ export class UserController{
     @Post()
     @UsePipes(new ValidationPipe())
     async createUser(@Body('user') createUserDto: CreateUserDto
-    ): Promise<{token: string}>{
+    ): Promise<Promise<UserResponseInterface>>{
         const user = await this.userService.createUser(createUserDto);
         return this.userService.buildUserResponse(user);
     }
@@ -21,14 +21,14 @@ export class UserController{
     @Post('login')
     @UsePipes(new ValidationPipe())
     async login(@Body('user') loginUserDto: LoginUserDto
-    ): Promise<{token: string}>{
+    ): Promise<Promise<UserResponseInterface>>{
         const user = await this.userService.login(loginUserDto);
         return this.userService.buildUserResponse(user);
     }
     @Get('me')
     async currentUser(@Req() request: ExpressRequestInterface
-    ): Promise <any>{
-        return request.user;
+    ): Promise <Promise<UserResponseInterface>>{
+        return this.userService.buildUserResponse(request.user);
     }
 }
 

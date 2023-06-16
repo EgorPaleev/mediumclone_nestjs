@@ -7,6 +7,7 @@ import {sign} from "jsonwebtoken";
 import { JWT_SECRET } from "@app/config";
 import { LoginUserDto } from "./dto/login.dto";
 import { compare } from "bcrypt";
+import { UserResponseInterface } from "./types/userResponse.interface";
 
 @Injectable()
 export class UserService{
@@ -29,8 +30,9 @@ export class UserService{
         return await this.userRepository.save(newUser);
     }
 
+
     async findById(id: number): Promise<UserEntity> {
-        return await this.userRepository.findOne({
+        return this.userRepository.findOne({
             where: {
                 id
             }
@@ -45,9 +47,12 @@ export class UserService{
         }, JWT_SECRET);
     }
 
-    buildUserResponse(user: UserEntity): {token: string}{
-        return {
-            token: this.generateJwt(user)
+    buildUserResponse(user: UserEntity): UserResponseInterface{
+        return{
+            user: {
+                ...user,
+                token: this.generateJwt(user)
+            }
         }
     }
 
