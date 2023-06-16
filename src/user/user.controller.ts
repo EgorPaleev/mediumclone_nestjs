@@ -5,30 +5,30 @@ import { UserResponseInterface } from "./types/userResponse.interface";
 import { LoginUserDto } from "./dto/login.dto";
 import { Request } from "express";
 import { ExpressRequestInterface } from "@app/types/expressRequest.interface";
-@Controller()
+@Controller('users')
 export class UserController{
     constructor(
         private readonly userService: UserService
         ){}
-    @Post('users')
+    @Post()
     @UsePipes(new ValidationPipe())
     async createUser(@Body('user') createUserDto: CreateUserDto
-    ): Promise<UserResponseInterface>{
+    ): Promise<{token: string}>{
         const user = await this.userService.createUser(createUserDto);
         return this.userService.buildUserResponse(user);
     }
 
-    @Post('users/login')
+    @Post('login')
     @UsePipes(new ValidationPipe())
     async login(@Body('user') loginUserDto: LoginUserDto
-    ): Promise<UserResponseInterface>{
+    ): Promise<{token: string}>{
         const user = await this.userService.login(loginUserDto);
         return this.userService.buildUserResponse(user);
     }
-    @Get('user')
+    @Get('me')
     async currentUser(@Req() request: ExpressRequestInterface
-    ): Promise <UserResponseInterface>{
-        return this.userService.buildUserResponse(request.user);
+    ): Promise <any>{
+        return request.user;
     }
 }
 

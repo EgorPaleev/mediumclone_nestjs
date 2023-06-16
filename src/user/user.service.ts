@@ -30,9 +30,12 @@ export class UserService{
         return await this.userRepository.save(newUser);
     }
 
-    async findById(id: number): Promise<UserEntity>
-    {
-        return this.userRepository.findOne(id);
+    async findById(id: number): Promise<UserEntity> {
+        return await this.userRepository.findOne({
+            where: {
+                id
+            }
+        });
     }
 
     generateJwt(user: UserEntity) : string {
@@ -43,15 +46,12 @@ export class UserService{
         }, JWT_SECRET);
     }
 
-    buildUserResponse(user: UserEntity): UserResponseInterface{
-        return{
-            user: {
-                ...user,
-                token: this.generateJwt(user)
-            }
+    buildUserResponse(user: UserEntity): {token: string}{
+        return {
+            token: this.generateJwt(user)
         }
     }
-    
+
     async login(loginUserDto: LoginUserDto): Promise<UserEntity>{
         const user = await this.userRepository.findOne({
             email: loginUserDto.email
